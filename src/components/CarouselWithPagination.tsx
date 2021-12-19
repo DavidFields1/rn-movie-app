@@ -33,6 +33,9 @@ export const CarouselWithPagination = ({ movies, windowWidth }: Props) => {
                 }}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
+                dotContainerStyle={{
+                    height: 0,
+                }}
             />
         </>
     )

@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import movieDB from "../api/movieDb";
-import { Movie, MovieDbNowPlaying } from "../interface/movieDBInterface";
+import { Movie, MovieDbMoviesResponse } from "../interface/movieDBInterface";
 
-export const useMovies = () => {
+export const useMovies = ( category: string ) => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [nowPlayingMovies, setNowPlayingMovies] = useState<Movie[]>([])
+    const [movies, setMovies] = useState<Movie[]>([])
 
     const getMovies = async () => {
-        const response = await movieDB.get<MovieDbNowPlaying>('/now_playing');
-        const movies = response.data.results;
-        setNowPlayingMovies(movies);
-        setIsLoading(false);
+        try {
+            const response = await movieDB.get<MovieDbMoviesResponse>(category);
+            const movies = response.data.results;
+            setMovies(movies);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
         getMovies();
-
     }, [])
 
     return {
-        nowPlayingMovies,
-        isLoading
+        movies,
+        isLoading,
     }
 }

@@ -1,5 +1,5 @@
-export interface MovieDbNowPlaying {
-    dates:         Dates;
+export interface MovieDbMoviesResponse {
+    dates?:         Dates;
     page:          number;
     results:       Movie[];
     total_pages:   number;
@@ -36,11 +36,11 @@ export enum OriginalLanguage {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-    public static toWelcome(json: string): MovieDbNowPlaying {
+    public static toWelcome(json: string): MovieDbMoviesResponse {
         return cast(JSON.parse(json), r("Welcome"));
     }
 
-    public static welcomeToJson(value: MovieDbNowPlaying): string {
+    public static welcomeToJson(value: MovieDbMoviesResponse): string {
         return JSON.stringify(uncast(value, r("Welcome")), null, 2);
     }
 }

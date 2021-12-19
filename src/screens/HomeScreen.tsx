@@ -1,42 +1,38 @@
 import React from 'react';
-import { Dimensions, FlatList, Text, View } from 'react-native';
+import { Dimensions, View, ScrollView } from 'react-native';
 import Loader from '../components/Loader';
 import { useMovies } from '../hooks/useMovies';
 import { CarouselWithPagination } from '../components/CarouselWithPagination';
-import { MoviePoster } from '../components/MoviePoster';
+import { HorizontalSlider } from '../components/HorizontalSlider';
 
 const { width: windowWidth } = Dimensions.get('window');
 
 export const HomeScreen = () => {
 
-    const { nowPlayingMovies, isLoading } = useMovies();
+    const { movies: nowPlayingMovies, isLoading: isLoadingNowPlaying } = useMovies('now_playing');
+    const { movies: popularMovies, isLoading: isLoadingPopular } = useMovies('popular');
+    const { movies: topRatedMovies, isLoading: isLoadingTopRated } = useMovies('top_rated');
+    const { movies: upcomingMovies, isLoading: isLoadingUpcoming } = useMovies('upcoming');
     
 
-    if(isLoading) {
+    if(isLoadingNowPlaying || isLoadingPopular || isLoadingTopRated || isLoadingUpcoming) {
         return(
             <Loader size={60} />
         )
     }
 
     return (
-        <View>
-            {/* <MoviePoster movie={nowPlayingMovies[0]}/> */}
-            <CarouselWithPagination 
-                movies={nowPlayingMovies}
-                windowWidth={windowWidth}
-            />
-            <View style={{ height: 205, backgroundColor: 'red'}}>
-                <Text style={{
-                    fontSize: 30,
-                    fontWeight: 'bold',
-                }}>Now Playing</Text>
-                <FlatList 
-                    data={nowPlayingMovies}
-                    renderItem={({ item }) => <MoviePoster movie={item} />}
-                    horizontal
-                    keyExtractor={(item) => item.id.toString()}
+        <ScrollView>
+            <View>
+                <CarouselWithPagination 
+                    movies={nowPlayingMovies}
+                    windowWidth={windowWidth}
                 />
+                <HorizontalSlider movies={nowPlayingMovies} title="Now Playing" />
+                <HorizontalSlider movies={popularMovies} title="Popular" />
+                <HorizontalSlider movies={topRatedMovies} title="Top Rated" />
+                <HorizontalSlider movies={upcomingMovies} title="Upcoming" />
             </View>
-        </View>
+        </ScrollView>
     )
 }
