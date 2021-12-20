@@ -16,7 +16,7 @@ export const CarouselWithPagination = ({ movies, windowWidth }: Props) => {
         <>
             <Carousel
                 data={movies}
-                renderItem={({ item }) => <MoviePoster movie={item} />}
+                renderItem={({ item }) => <MoviePoster movie={item} borderRadius/>}
                 sliderWidth={windowWidth}
                 itemWidth={300}
                 onSnapToItem={(index) => setActiveSlide(index)}

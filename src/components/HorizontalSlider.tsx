@@ -1,5 +1,6 @@
 import React from 'react'
 import { FlatList, Text, View } from 'react-native'
+import { Cast } from '../interface/movieCastInterface'
 import { Movie } from '../interface/movieDBInterface'
 import { MoviePoster } from './MoviePoster'
 
@@ -15,11 +16,12 @@ export const HorizontalSlider = ({ movies, title }:Props) => {
                 fontSize: 25,
                 fontWeight: 'bold',
                 marginLeft: 10,
+                marginBottom: 10,
             }}>{ title }</Text>
             <FlatList
                 data={movies}
                 renderItem={({ item }) => {
-                    return <MoviePoster movie={item} height={200} width={140}/>}
+                    return <MoviePoster movie={item} height={200} width={140} borderRadius/>}
                 }
                 horizontal
                 keyExtractor={(item) => item.id.toString()}

@@ -6,7 +6,7 @@ import { Movie } from '../interface/movieDbInterface';
 
 export type RootStackParamList = {
     HomeScreen: undefined;
-    DetailScreen: { movie: Movie };
+    DetailScreen: Movie ;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
