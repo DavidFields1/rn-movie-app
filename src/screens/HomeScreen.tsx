@@ -4,6 +4,7 @@ import Loader from '../components/Loader';
 import { useMovies } from '../hooks/useMovies';
 import { CarouselWithPagination } from '../components/CarouselWithPagination';
 import { HorizontalSlider } from '../components/HorizontalSlider';
+import GradientBackground from '../components/GradientBackground';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -22,17 +23,19 @@ export const HomeScreen = () => {
     }
 
     return (
-        <ScrollView>
-            <View>
-                <CarouselWithPagination 
-                    movies={nowPlayingMovies}
-                    windowWidth={windowWidth}
-                />
-                <HorizontalSlider movies={nowPlayingMovies} title="Now Playing" />
-                <HorizontalSlider movies={popularMovies} title="Popular" />
-                <HorizontalSlider movies={topRatedMovies} title="Top Rated" />
-                <HorizontalSlider movies={upcomingMovies} title="Upcoming" />
-            </View>
-        </ScrollView>
+        <GradientBackground>
+            <ScrollView>
+                <View style={{ marginTop: 10 }}>
+                    <CarouselWithPagination 
+                        movies={nowPlayingMovies}
+                        windowWidth={windowWidth}
+                    />
+                    <HorizontalSlider movies={nowPlayingMovies} title="Now Playing" />
+                    <HorizontalSlider movies={popularMovies} title="Popular" />
+                    <HorizontalSlider movies={topRatedMovies} title="Top Rated" />
+                    <HorizontalSlider movies={upcomingMovies} title="Upcoming" />
+                </View>
+            </ScrollView>
+        </GradientBackground>
     )
 }

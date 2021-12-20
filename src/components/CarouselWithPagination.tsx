@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { Movie } from '../interface/movieDBInterface'
 import { MoviePoster } from './MoviePoster'
+import { getImageColors } from '../helpers/getImageColors';
+import { GradientContext } from '../context/GradientContext';
 
 interface Props {
     movies: Movie[],
@@ -11,6 +13,24 @@ interface Props {
 export const CarouselWithPagination = ({ movies, windowWidth }: Props) => {
 
     const [activeSlide, setActiveSlide] = React.useState(0);
+    const {setGradientMainColors, setGradientPrevColors} = useContext(GradientContext)
+
+    const getPosterColors = async (index: number) => {
+        const movie = movies[index];
+        const uri = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+        
+        const [primary = '#fff', secondary = '#000'] = await getImageColors(uri)
+        
+        setGradientMainColors({primary, secondary})
+        
+    }
+
+    useEffect(() => {
+        if(movies.length > 0){
+            getPosterColors(0)
+        }
+
+    }, [movies])
 
     return (
         <>
@@ -19,7 +39,7 @@ export const CarouselWithPagination = ({ movies, windowWidth }: Props) => {
                 renderItem={({ item }) => <MoviePoster movie={item} borderRadius/>}
                 sliderWidth={windowWidth}
                 itemWidth={300}
-                onSnapToItem={(index) => setActiveSlide(index)}
+                onSnapToItem={(index) => {getPosterColors(index); setActiveSlide(index)}}
             />
             <Pagination
                 dotsLength={movies.length}
